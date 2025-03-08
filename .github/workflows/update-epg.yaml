@@ -1,0 +1,30 @@
+name: Run Script Every 2 Days
+
+on:
+  schedule:
+    - cron: '0 0 */2 * *'  # Runs every 2 days at midnight (UTC)
+  workflow_dispatch: # Allows manual triggering if needed
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up the environment (if needed)
+      run: |
+        # For example, install dependencies if your script needs them
+        # sudo apt-get install <dependencies> (if required)
+        # or use `pip` for Python dependencies
+        # pip install -r requirements.txt (if needed)
+        sudo apt install xmltv -y
+
+    - name: Run the existing script
+      run: |
+        # Make the script executable (if needed)
+        chmod +x ./epgmerger.sh
+        
+        # Run the script
+        ./epgmerger.sh
