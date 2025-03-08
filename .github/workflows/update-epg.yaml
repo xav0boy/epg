@@ -25,17 +25,20 @@ jobs:
         # Run the script to generate the output file
         ./epgmerger.sh
 
-    - name: Add and Commit the output file to the repository
+    - name: Check for changes and commit
       run: |
         # Configure Git user (GitHub Actions setup)
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         
-        # Add all modified files (you can specify a single file if necessary)
+        # Check if there are changes to commit
+        git status
+        
+        # Add modified or new files
         git add epg.xmltv.gz
         
-        # Commit changes
-        git commit -m "Update epg.xmltv.gz file from automation"
+        # Commit the changes only if there are any
+        git diff --cached --quiet || git commit -m "Update epg.xmltv.gz file from automation"
         
         # Push changes back to the repository
         git push
