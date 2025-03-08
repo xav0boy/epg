@@ -15,7 +15,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    - name: Set up the environment (if needed)
+    - name: Set up the environment
       run: |
         sudo apt install xmltv -y
 
@@ -29,16 +29,12 @@ jobs:
 
     - name: Check for changes and commit
       run: |     
-        cd $GITHUB_WORKSPACE
         # Configure Git user (GitHub Actions setup)
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
-
-        pwd
         
         # Add modified or new files
-        echo "ultimo" > test.txt
-        git add test.txt
+        git add epg.xmltv.gz
         
         # Commit the changes only if there are any
         git diff --cached --quiet || git commit -m "Update epg.xmltv.gz file from automation"
