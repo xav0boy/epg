@@ -1,4 +1,4 @@
-name: Run Script Every 2 Days
+name: Run EPG updater
 
 on:
   schedule:
@@ -13,18 +13,32 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up Git (if needed)
+      uses: actions/setup-git@v2
+
     - name: Set up the environment (if needed)
       run: |
-        # For example, install dependencies if your script needs them
-        # sudo apt-get install <dependencies> (if required)
-        # or use `pip` for Python dependencies
-        # pip install -r requirements.txt (if needed)
-        sudo apt install xmltv -y
+        apt install xmltv -y
 
     - name: Run the existing script
       run: |
         # Make the script executable (if needed)
-        chmod +x ./epgmerger.sh
+        chmod +x epgmerger.sh
         
-        # Run the script
+        # Run the script to generate the output file
         ./epgmerger.sh
+
+    - name: Add and Commit the output file to the repository
+      run: |
+        # Configure Git user (GitHub Actions setup)
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        
+        # Add all modified files (you can specify a single file if necessary)
+        git add epg.xmltv.gz
+        
+        # Commit changes
+        git commit -m "Update epg.xmltv.gz file from automation"
+        
+        # Push changes back to the repository
+        git push
