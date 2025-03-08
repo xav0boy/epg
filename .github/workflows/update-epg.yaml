@@ -34,7 +34,7 @@ jobs:
         git config --global user.email "github-actions@github.com"
         
         # Check if there are changes to commit
-        git status
+        git pull
         
         # Add modified or new files
         git add epg.xmltv.gz
@@ -43,4 +43,4 @@ jobs:
         git diff --cached --quiet || git commit -m "Update epg.xmltv.gz file from automation"
         
         # Push changes back to the repository
-        git push
+        git push origin main
