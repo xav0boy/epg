@@ -19,14 +19,6 @@ jobs:
       run: |
         sudo apt install xmltv -y
 
-    - name: Run the existing script
-      run: |
-        # Make the script executable (if needed)
-        chmod +x epgmerger.sh
-        
-        # Run the script to generate the output file
-        ./epgmerger.sh
-
     - name: Check for changes and commit
       run: |        
         # Configure Git user (GitHub Actions setup)
@@ -34,7 +26,8 @@ jobs:
         git config --global user.email "github-actions@github.com"
 
         # Add modified or new files
-        git add epg.xmltv.gz
+        echo "ultimo" > test.txt
+        git add test.txt
         
         # Commit the changes only if there are any
         git diff --cached --quiet || git commit -m "Update epg.xmltv.gz file from automation"
