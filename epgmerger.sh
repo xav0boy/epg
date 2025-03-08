@@ -3,13 +3,16 @@
 # This script downloads epg files and merges them into one file.
 
 ## VARIABLES
-BASEPATH="./workspace"  # Temporary directory to prevent interfering with git
+BASEPATH="./workspace"  # Temporary directory for processing files
 OUTPUT_FILE="$BASEPATH/epg.xmltv.gz"
 
 LISTS=(
     "https://epgshare01.online/epgshare01/epg_ripper_PT1.xml.gz"
     "https://epgshare01.online/epgshare01/epg_ripper_ES1.xml.gz"
 )
+
+# Create the workspace directory if it doesn't exist
+mkdir -p $BASEPATH
 
 fixall () {
     for xml in $BASEPATH/*.xml; do
@@ -30,16 +33,18 @@ downloadepgs () {
         sleep 1
         dir="$(TMPDIR=$PWD mktemp -d)"  ## makes a temp dir so that we can download the file, rename it, and keep its extension.
         wget -q --show-progress -P $dir --content-disposition --trust-server-names ${list[*]}
-        regex="\?"
+        
+        # Downloaded files may be gzipped, so extract and rename properly
         for file in $dir/*; do
-            if [[ $file =~ $regex ]]; then
-                ext="xml"
+            if [[ $file =~ \.gz$ ]]; then
+                ext="gz"
+                echo "Extracting $file"
+                gunzip -c $file > $BASEPATH/$INDEX.xml  # Extract the .gz file and rename to .xml
             else
-                echo "Not!"
-                ext=${file##*.}
+                ext="xml"
+                mv $file $BASEPATH/$INDEX.$ext
             fi
-            echo "Extension = $ext Will rename it to $BASEPATH/$INDEX.$ext"
-            mv $file $BASEPATH/$INDEX.$ext
+            echo "Renamed to $BASEPATH/$INDEX.$ext"
         done
         rmdir "$dir"
         let INDEX=${INDEX}+1
@@ -48,15 +53,7 @@ downloadepgs () {
 
 extractgz () {
     echo "Extracting compressed files..."
-    gunzip -f $BASEPATH/*.gz
-    find $BASEPATH -type f ! -name "*.*" -exec mv {} {}.xml \;
-    sleep 2
-    ## workarround to fix unknown bug that causes the .xml extension not to be added to some files some times.
-    INDEX=1
-    for list in ${LISTS[*]}; do
-        mv $BASEPATH/$INDEX $BASEPATH/$INDEX.xml
-        let INDEX=${INDEX}+1
-    done
+    # There's no need for this if we handle the extraction in the download step already.
 }
 
 sortall () {
@@ -85,7 +82,6 @@ mergeall () {
 
 getall () {
     downloadepgs
-    extractgz
 }
 
 getall
