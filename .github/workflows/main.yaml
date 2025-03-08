@@ -16,11 +16,15 @@ jobs:
     - name: Check for changes and commit
       run: |
         echo "segundo" > test.txt
+        
+        # Configure Git user (GitHub Actions setup)
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+
         # Add modified or new files
         git add test.txt
         
         # Commit the changes only if there are any
-        echo "passo 5"
         git diff --cached --quiet || git commit -m "Update test file from automation"
         
         # Push changes back to the repository
