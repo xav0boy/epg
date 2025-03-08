@@ -27,6 +27,7 @@ jobs:
 
     - name: Check for changes and commit
       run: |
+        ls -al
         # Configure Git user (GitHub Actions setup)
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
