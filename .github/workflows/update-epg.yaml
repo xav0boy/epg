@@ -36,8 +36,10 @@ jobs:
         git config --global user.email "github-actions@github.com"
         echo "passo 3"
         # Check if there are changes to commit
+        pwd
         git init
         cd $GITHUB_WORKSPACE
+        pwd
         # git pull
         echo "passo 4"
         # Add modified or new files
