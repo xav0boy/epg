@@ -19,6 +19,14 @@ jobs:
       run: |
         sudo apt install xmltv -y
 
+    - name: Run the existing script
+      run: |
+        # Make the script executable (if needed)
+        chmod +x epgmerger.sh
+        
+        # Run the script to generate the output file
+        ./epgmerger.sh
+
     - name: Check for changes and commit
       run: |        
         # Configure Git user (GitHub Actions setup)
