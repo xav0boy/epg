@@ -13,9 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Git (if needed)
-      uses: actions/setup-git@v2
-
     - name: Set up the environment (if needed)
       run: |
         apt install xmltv -y
