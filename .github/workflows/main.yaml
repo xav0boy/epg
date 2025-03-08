@@ -8,6 +8,8 @@ on:
 jobs:
   run-script:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grants write permission to the repository's contents
     
     steps:
     - name: Checkout repository
