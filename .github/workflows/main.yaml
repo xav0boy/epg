@@ -15,20 +15,29 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Check for changes and commit
+    - name: Set up the environment (if needed)
       run: |
-        echo "segundo" > test.txt
+        sudo apt install xmltv -y
+
+    - name: Run the existing script
+      run: |
+        # Make the script executable (if needed)
+        chmod +x epgmerger.sh
         
+        # Run the script to generate the output file
+        ./epgmerger.sh
+
+    - name: Check for changes and commit
+      run: |        
         # Configure Git user (GitHub Actions setup)
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
         # Add modified or new files
-        git add test.txt
+        git add epg.xmltv.gz
         
         # Commit the changes only if there are any
-        git diff --cached --quiet || git commit -m "Update test file from automation"
+        git diff --cached --quiet || git commit -m "Update epg.xmltv.gz file from automation"
         
         # Push changes back to the repository
-        echo "passo 6"
         git push origin main
