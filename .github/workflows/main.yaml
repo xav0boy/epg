@@ -1,0 +1,28 @@
+name: Run EPG updater
+
+on:
+  schedule:
+    - cron: '0 0 */2 * *'  # Runs every 2 days at midnight (UTC)
+  workflow_dispatch: # Allows manual triggering if needed
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check for changes and commit
+      run: |
+        echo "segundo" > test.txt
+        # Add modified or new files
+        git add test.txt
+        
+        # Commit the changes only if there are any
+        echo "passo 5"
+        git diff --cached --quiet || git commit -m "Update test file from automation"
+        
+        # Push changes back to the repository
+        echo "passo 6"
+        git push origin main
