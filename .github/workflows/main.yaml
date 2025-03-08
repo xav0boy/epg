@@ -1,4 +1,4 @@
-name: Run tester updater
+name: Run EPG updater
 
 on:
   schedule:
