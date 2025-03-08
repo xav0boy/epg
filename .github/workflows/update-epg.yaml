@@ -15,7 +15,7 @@ jobs:
 
     - name: Set up the environment (if needed)
       run: |
-        apt install xmltv -y
+        sudo apt install xmltv -y
 
     - name: Run the existing script
       run: |
