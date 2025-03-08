@@ -3,7 +3,7 @@
 #This script downloads epg files and merges them into one file.
 
 ## VARIABLES
-BASEPATH="./"
+BASEPATH="."
 
 
 LISTS=(
