@@ -25,6 +25,8 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
 
+        pwd
+        
         # Add modified or new files
         echo "ultimo" > test.txt
         git add test.txt
